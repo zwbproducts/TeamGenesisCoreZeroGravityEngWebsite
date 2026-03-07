@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayData - AI Analytics for E-commerce</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #FF6B6B;
+            --blue: #4ECDC4;
+            --yellow: #FFE66D;
+            --green: #95E1D3;
+            --purple: #C7CEEA;
+            --orange: #FFA07A;
+            --pink: #FFB6C1;
+            --dark: #2D3436;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Floating shapes background */
+        .shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) { top: 10%; left: 10%; width: 80px; height: 80px; background: var(--red); border-radius: 20px; animation-delay: 0s; }
+        .shape:nth-child(2) { top: 70%; left: 80%; width: 120px; height: 120px; background: var(--blue); border-radius: 50%; animation-delay: 2s; }
+        .shape:nth-child(3) { top: 40%; left: 70%; width: 60px; height: 60px; background: var(--yellow); transform: rotate(45deg); animation-delay: 4s; }
+        .shape:nth-child(4) { top: 80%; left: 20%; width: 100px; height: 100px; background: var(--green); border-radius: 30% 70% 70% 30%; animation-delay: 6s; }
+        .shape:nth-child(5) { top: 20%; left: 80%; width: 90px; height: 90px; background: var(--purple); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); animation-delay: 8s; }
+        .shape:nth-child(6) { top: 60%; left: 5%; width: 70px; height: 70px; background: var(--orange); border-radius: 50%; animation-delay: 10s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            padding: 20px 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--red);
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--red), var(--orange));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn.red { background: var(--red); color: white; }
+        .nav-btn.blue { background: var(--blue); color: white; }
+        .nav-btn.yellow { background: var(--yellow); color: var(--dark); }
+        .nav-btn.green { background: var(--green); color: var(--dark); }
+
+        .nav-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 50px;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--red), var(--blue), var(--yellow), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow 3s ease infinite;
+            background-size: 300% 300%;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn.primary {
+            background: linear-gradient(135deg, var(--red), var(--orange));
+            color: white;
+        }
+
+        .cta-btn.secondary {
+            background: white;
+            color: var(--dark);
+            border: 4px solid var(--blue);
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        /* Toy Box Sections */
+        .toy-box {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--dark);
+        }
+
+        /* Collapsible Blocks */
+        .blocks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .toy-block {
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+        }
+
+        .toy-block:hover {
+            transform: translateY(-15px) rotate(2deg);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+        }
+
+        .toy-block-header {
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .toy-block.red { background: var(--red); }
+        .toy-block.blue { background: var(--blue); }
+        .toy-block.yellow { background: var(--yellow); }
+        .toy-block.green { background: var(--green); }
+        .toy-block.purple { background: var(--purple); }
+        .toy-block.orange { background: var(--orange); }
+
+        .block-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.3s;
+        }
+
+        .toy-block:hover .block-icon {
+            transform: scale(1.2) rotate(15deg);
+        }
+
+        .block-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            flex: 1;
+        }
+
+        .toy-block.yellow .block-title,
+        .toy-block.green .block-title,
+        .toy-block.purple .block-title {
+            color: var(--dark);
+        }
+
+        .expand-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .toy-block.yellow .expand-icon,
+        .toy-block.green .expand-icon,
+        .toy-block.purple .expand-icon {
+            background: rgba(0,0,0,0.1);
+        }
+
+        .toy-block.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .toy-block-content {
+            max-height: 0;
+            overflow: hidden;
+            background: rgba(255,255,255,0.95);
+            transition: max-height 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .toy-block.expanded .toy-block-content {
+            max-height: 500px;
+        }
+
+        .block-inner {
+            padding: 30px;
+        }
+
+        .block-inner p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .feature-list li::before {
+            content: "✨";
+            font-size: 1.3rem;
+        }
+
+        /* Stats Section */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 1024px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-bubble {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-bubble::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--red), var(--blue), var(--yellow), transparent);
+            animation: rotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-bubble:hover::before {
+            opacity: 0.1;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .stat-bubble:hover {
+            transform: scale(1.1) rotate(-3deg);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-bubble:nth-child(1) .stat-number { color: var(--red); }
+        .stat-bubble:nth-child(2) .stat-number { color: var(--blue); }
+        .stat-bubble:nth-child(3) .stat-number { color: var(--yellow); -webkit-text-stroke: 2px var(--dark); }
+        .stat-bubble:nth-child(4) .stat-number { color: var(--green); }
+
+        .stat-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #666;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--red);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .service-card:nth-child(2)::after { background: var(--blue); }
+        .service-card:nth-child(3)::after { background: var(--yellow); }
+        .service-card:nth-child(4)::after { background: var(--green); }
+        .service-card:nth-child(5)::after { background: var(--purple); }
+        .service-card:nth-child(6)::after { background: var(--orange); }
+
+        .service-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+        }
+
+        .service-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: all 0.3s;
+        }
+
+        .service-card:nth-child(1) .service-icon { background: linear-gradient(135deg, var(--red), var(--orange)); }
+        .service-card:nth-child(2) .service-icon { background: linear-gradient(135deg, var(--blue), #3dbdb5); }
+        .service-card:nth-child(3) .service-icon { background: linear-gradient(135deg, var(--yellow), #ffe047); }
+        .service-card:nth-child(4) .service-icon { background: linear-gradient(135deg, var(--green), #7dd3c0); }
+        .service-card:nth-child(5) .service-icon { background: linear-gradient(135deg, var(--purple), #b8bfe8); }
+        .service-card:nth-child(6) .service-icon { background: linear-gradient(135deg, var(--orange), #ff8c69); }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .service-desc {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* Portfolio Section */
+        .portfolio-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .portfolio-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .portfolio-item {
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .portfolio-item:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+        }
+
+        .portfolio-visual {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-item:nth-child(1) .portfolio-visual { background: linear-gradient(135deg, var(--red), var(--orange)); }
+        .portfolio-item:nth-child(2) .portfolio-visual { background: linear-gradient(135deg, var(--blue), #3dbdb5); }
+        .portfolio-item:nth-child(3) .portfolio-visual { background: linear-gradient(135deg, var(--yellow), #ffe047); }
+        .portfolio-item:nth-child(4) .portfolio-visual { background: linear-gradient(135deg, var(--green), #7dd3c0); }
+
+        .portfolio-visual::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 30px;
+            transform: rotate(45deg);
+        }
+
+        .portfolio-emoji {
+            font-size: 5rem;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s;
+        }
+
+        .portfolio-item:hover .portfolio-emoji {
+            transform: scale(1.3) rotate(15deg);
+        }
+
+        .portfolio-content {
+            padding: 35px;
+        }
+
+        .portfolio-tag {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .portfolio-item:nth-child(1) .portfolio-tag { background: rgba(255,107,107,0.2); color: var(--red); }
+        .portfolio-item:nth-child(2) .portfolio-tag { background: rgba(78,205,196,0.2); color: var(--blue); }
+        .portfolio-item:nth-child(3) .portfolio-tag { background: rgba(255,230,109,0.3); color: var(--dark); }
+        .portfolio-item:nth-child(4) .portfolio-tag { background: rgba(149,225,211,0.3); color: #2a8a75; }
+
+        .portfolio-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .portfolio-desc {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .portfolio-stats {
+            display: flex;
+            gap: 30px;
+        }
+
+        .portfolio-stat {
+            text-align: center;
+        }
+
+        .portfolio-stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .portfolio-stat-label {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--red), var(--blue));
+            border-radius: 40px;
+            padding: 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 20px,
+                rgba(255,255,255,0.05) 20px,
+                rgba(255,255,255,0.05) 40px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .contact-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-title {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .contact-desc {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-btn {
+            padding: 25px 60px;
+            background: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--red);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .contact-btn:hover {
+            transform: scale(1.15) rotate(-3deg);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 50px 30px;
+            border-radius: 40px 40px 0 0;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .footer-col h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--yellow);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .footer-col a:hover {
+            color: var(--yellow);
+            transform: translateX(10px);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 50px auto 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+        }
+
+        .social-btn:nth-child(1) { background: var(--red); }
+        .social-btn:nth-child(2) { background: var(--blue); }
+        .social-btn:nth-child(3) { background: var(--yellow); }
+        .social-btn:nth-child(4) { background: var(--green); }
+
+        .social-btn:hover {
+            transform: translateY(-10px) rotate(15deg) scale(1.2);
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Scroll animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background shapes -->
+    <div class="shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">📊</div>
+                <span>PlayData</span>
+            </div>
+            <nav>
+                <button class="nav-btn red">Services</button>
+                <button class="nav-btn blue">Portfolio</button>
+                <button class="nav-btn yellow">About</button>
+                <button class="nav-btn green">Contact</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>AI-Powered E-Commerce Analytics!</h1>
+        <p>Transform your online store data into actionable insights with our playful yet powerful analytics platform. We make data fun and profitable! 🚀</p>
+        <div class="cta-buttons">
+            <button class="cta-btn primary" onclick="createConfetti(event)">Start Free Trial</button>
+            <button class="cta-btn secondary">Watch Demo</button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="toy-box">
+        <!-- Collapsible Feature Blocks -->
+        <h2 class="section-title scroll-reveal">🧸 What's in Our Toy Box?</h2>
+        <div class="blocks-container">
+            <div class="toy-block red scroll-reveal" onclick="toggleBlock(this)">
+                <div class="toy-block-header">
+                    <div class="block-icon">🎯</div>
+                    <div class="block-title">Smart Predictions</div>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="toy-block-content">
+                    <div class="block-inner">
+                        <p>Our AI algorithms predict customer behavior, inventory needs, and sales trends with incredible accuracy. Stay ahead of the curve!</p>
+                        <ul class="feature-list">
+                            <li>Demand forecasting</li>
+                            <li>Churn prediction</li>
+                            <li>Price optimization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toy-block blue scroll-reveal" onclick="toggleBlock(this)">
+                <div class="toy-block-header">
+                    <div class="block-icon">📈</div>
+                    <div class="block-title">Real-Time Analytics</div>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="toy-block-content">
+                    <div class="block-inner">
+                        <p>Watch your business grow in real-time with beautiful dashboards and instant insights. No more waiting for reports!</p>
+                        <ul class="feature-list">
+                            <li>Live sales tracking</li>
+                            <li>Customer journey mapping</li>
+                            <li>Conversion funnel analysis</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toy-block yellow scroll-reveal" onclick="toggleBlock(this)">
+                <div class="toy-block-header">
+                    <div class="block-icon">🤖</div>
+                    <div class="block-title">AI Automation</div>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="toy-block-content">
+                    <div class="block-inner">
+                        <p>Let our AI handle the heavy lifting. Automated reports, smart alerts, and intelligent recommendations.</p>
+                        <ul class="feature-list">
+                            <li>Automated reporting</li>
+                            <li>Smart alerts & notifications</li>
+                            <li>AI-powered recommendations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toy-block green scroll-reveal" onclick="toggleBlock(this)">
+                <div class="toy-block-header">
+                    <div class="block-icon">🎨</div>
+                    <div class="block-title">Visual Insights</div>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="toy-block-content">
+                    <div class="block-inner">
+                        <p>Data doesn't have to be boring! Our colorful, intuitive visualizations make understanding metrics a joy.</p>
+                        <ul class="feature-list">
+                            <li>Interactive dashboards</li>
+                            <li>Custom report builder</li>
+                            <li>One-click sharing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toy-block purple scroll-reveal" onclick="toggleBlock(this)">
+                <div class="toy-block-header">
+                    <div class="block-icon">🔗</div>
+                    <div class="block-title">Easy Integration</div>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="toy-block-content">
+                    <div class="block-inner">
+                        <p>Connect with your favorite e-commerce platforms in minutes. Shopify, WooCommerce, Magento - we support them all!</p>
+                        <ul class="feature-list">
+                            <li>50+ platform integrations</li>
+                            <li>API access</li>
+                            <li>Webhook support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toy-block orange scroll-reveal" onclick="toggleBlock(this)">
+                <div class="toy-block-header">
+                    <div class="block-icon">🛡️</div>
+                    <div class="block-title">Secure & Reliable</div>
+                    <div class="expand-icon">▼</div>
+                </div>
+                <div class="toy-block-content">
+                    <div class="block-inner">
+                        <p>Enterprise-grade security with 99.9% uptime. Your data is encrypted, backed up, and protected 24/7.</p>
+                        <ul class="feature-list">
+                            <li>SOC 2 Type II certified</li>
+                            <li>GDPR compliant</li>
+                            <li>24/7 monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <h2 class="section-title scroll-reveal">🎈 By The Numbers</h2>
+        <div class="stats-container">
+            <div class="stat-bubble scroll-reveal">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">Happy Clients</div>
+            </div>
+            <div class="stat-bubble scroll-reveal">
+                <div class="stat-number" data-target="2">0</div>
+                <div class="stat-label">Billion Data Points</div>
+            </div>
+            <div class="stat-bubble scroll-reveal">
+                <div class="stat-number" data-target="99">0</div>
+                <div class="stat-label">% Accuracy Rate</div>
+            </div>
+            <div class="stat-bubble scroll-reveal">
+                <div class="stat-number" data-target="24">0</div>
+                <div class="stat-label">/7 Support</div>
+            </div>
+        </div>
+
+        <!-- Services Section -->
+        <h2 class="section-title scroll-reveal">🎪 Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card scroll-reveal">
+                <div class="service-icon">📊</div>
+                <h3 class="service-title">Data Analytics</h3>
+                <p class="service-desc">Deep dive into your sales, customer behavior, and market trends with advanced analytics tools.</p>
+            </div>
+            <div class="service-card scroll-reveal">
+                <div class="service-icon">🎯</div>
+                <h3 class="service-title">Predictive Modeling</h3>
+                <p class="service-desc">AI-powered predictions for inventory, sales, and customer lifetime value optimization.</p>
+            </div>
+            <div class="service-card scroll-reveal">
+                <div class="service-icon">👥</div>
+                <h3 class="service-title">Customer Insights</h3>
+                <p class="service-desc">Understand who your customers are, what they want, and how to keep them coming back.</p>
+            </div>
+            <div class="service-card scroll-reveal">
+                <div class="service-icon">🛍️</div>
+                <h3 class="service-title">Conversion Optimization</h3>
+                <p class="service-desc">Identify bottlenecks and opportunities to turn more visitors into paying customers.</p>
+            </div>
+            <div class="service-card scroll-reveal">
+                <div class="service-icon">📱</div>
+                <h3 class="service-title">Mobile Analytics</h3>
+                <p class="service-desc">Track and optimize the mobile shopping experience for maximum engagement.</p>
+            </div>
+            <div class="service-card scroll-reveal">
+                <div class="service-icon">🎁</div>
+                <h3 class="service-title">Custom Solutions</h3>
+                <p class="service-desc">Tailored analytics solutions built specifically for your unique business needs.</p>
+            </div>
+        </div>
+
+        <!-- Portfolio Section -->
+        <h2 class="section-title scroll-reveal">🎨 Success Stories</h2>
+        <div class="portfolio-container">
+            <div class="portfolio-item scroll-reveal">
+                <div class="portfolio-visual">
+                    <span class="portfolio-emoji">👗</span>
+                </div>
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">Fashion</span>
+                    <h3 class="portfolio-title">TrendyThreads Inc.</h3>
+                    <p class="portfolio-desc">Increased conversion rate by 45% using AI-powered product recommendations and customer segmentation.</p>
+                    <div class="portfolio-stats">
+                        <div class="portfolio-stat">
+                            <div class="portfolio-stat-value">+45%</div>
+                            <div class="portfolio-stat-label">Conversion</div>
+                        </div>
+                        <div class="portfolio-stat">
+                            <div class="portfolio-stat-value">2.5x</div>
+                            <div class="portfolio-stat-label">ROI</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item scroll-reveal">
+                <div class="portfolio-visual">
+                    <span class="portfolio-emoji">🍔</span>
+                </div>
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">Food & Beverage</span>
+                    <h3 class="portfolio-title">FreshFeast Delivery</h3>
+                    <p class="portfolio-desc">Reduced food waste by 60% with demand forecasting and optimized inventory management.</p>
+                    <div class="portfolio-stats">
+                        <div class="portfolio-stat">
+                            <div class="portfolio-stat-value">-60%</div>
+                            <div class="portfolio-stat-label">Waste</div>
+                        </div>
+                        <div class="portfolio-stat">
+                            <div class="portfolio-stat-value">+32%</div>
+                            <div class="portfolio-stat-label">Profit</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item scroll-reveal">
+                <div class="portfolio-visual">
+                    <span class="portfolio-emoji">🎮</span>
+                </div>
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">Electronics</span>
+                    <h3 class="portfolio-title">GameWorld Store</h3>
+                    <p class="portfolio-desc">Boosted customer retention by 80% with personalized marketing campaigns and churn prediction.</p>
+                    <div class="portfolio-stats">
+                        <div class="portfolio-stat">
+                            <div class="portfolio-stat-value">+80%</div>
+                            <div class="portfolio-stat-label">Retention</div>
+                        </div>
+                        <div class="portfolio-stat">
+                            <div class="portfolio-stat-value">3M+</div>
+                            <div class="portfolio-stat-label">Revenue</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item scroll-reveal">
+                <div class="portfolio-visual">
+                    <span class="portfolio-emoji">🏠</span>
+                </div>
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">Home & Garden</span>
+                    <h3 class="portfolio-title">CozyCorner Living</h3>
+                    <p class="portfolio-desc">Achieved 200% growth in 6 months with comprehensive market analysis and competitive intelligence.</p>
+                    <div class="portfolio-stats">
+                        <div class="portfolio-stat">
+                            <div class="portfolio-stat-value">+200%</div>
+                            <div class="portfolio-stat-label">Growth</div>
+                        </div>
+                        <div class="portfolio-stat">
+                            <div class="portfolio-stat-value">50K+</div>
+                            <div class="portfolio-stat-label">New Customers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section scroll-reveal">
+            <div class="contact-content">
+                <h2 class="contact-title">Ready to Play with Data? 🎉</h2>
+                <p class="contact-desc">Join hundreds of e-commerce businesses already using PlayData to grow smarter and faster!</p>
+                <button class="contact-btn" onclick="createConfetti(event)">Get Started Free</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Integrations</a></li>
+                    <li><a href="#">API</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Webinars</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 PlayData Analytics. All rights reserved. Made with 🎨 and 💖</p>
+            <div class="social-links">
+                <div class="social-btn">📧</div>
+                <div class="social-btn">💬</div>
+                <div class="social-btn">🐦</div>
+                <div class="social-btn">💼</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle collapsible blocks
+        function toggleBlock(element) {
+            element.classList.toggle('expanded');
+        }
+
+        // Confetti effect
+        function createConfetti(event) {
+            const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#95E1D3', '#C7CEEA', '#FFA07A', '#FFB6C1'];
+            const button = event.target;
+            const rect = button.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = x + 'px';
+                confetti.style.top = y + 'px';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                
+                const angle = (Math.PI * 2 * i) / 50;
+                const velocity = 10 + Math.random() * 10;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity - 10;
+                
+                document.body.appendChild(confetti);
+                
+                let posX = x;
+                let posY = y;
+                let velX = vx;
+                let velY = vy;
+                let rotation = 0;
+                let rotationSpeed = (Math.random() - 0.5) * 20;
+                
+                const animate = () => {
+                    velY += 0.5; // gravity
+                    posX += velX;
+                    posY += velY;
+                    rotation += rotationSpeed;
+                    
+                    confetti.style.left = posX + 'px';
+                    confetti.style.top = posY + 'px';
+                    confetti.style.transform = `rotate(${rotation}deg)`;
+                    confetti.style.opacity = 1 - (posY / window.innerHeight);
+                    
+                    if (posY < window.innerHeight) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        confetti.remove();
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            }
+        }
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate numbers if it's a stat bubble
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    if (statNumber) {
+                        animateNumber(statNumber);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Number animation
+        function animateNumber(element) {
+            const target = parseInt(element.dataset.target);
+            const duration = 2000;
+            const start = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(easeProgress * target);
+                
+                element.textContent = current + (target === 2 ? 'B+' : target === 99 ? '%' : '+');
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    element.textContent = target + (target === 2 ? 'B+' : target === 99 ? '%' : '+');
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const text = this.textContent.toLowerCase();
+                let target;
+                
+                switch(text) {
+                    case 'services':
+                        target = document.querySelector('.services-grid');
+                        break;
+                    case 'portfolio':
+                        target = document.querySelector('.portfolio-container');
+                        break;
+                    case 'about':
+                        target = document.querySelector('.blocks-container');
+                        break;
+                    case 'contact':
+                        target = document.querySelector('.contact-section');
+                        break;
+                }
+                
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add hover sound effect simulation (visual feedback)
+        document.querySelectorAll('.toy-block, .service-card, .portfolio-item, .stat-bubble').forEach(el => {
+            el.addEventListener('mouseenter', function() {
+                this.style.transform = this.style.transform + ' scale(1.02)';
+            });
+        });
+
+        // Parallax effect for shapes
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 10;
+                const x = (window.innerWidth / 2 - e.clientX) / speed;
+                const y = (window.innerHeight / 2 - e.clientY) / speed;
+                shape.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
