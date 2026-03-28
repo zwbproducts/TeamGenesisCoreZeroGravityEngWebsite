@@ -250,6 +250,179 @@
             white-space: nowrap;
         }
 
+        .director-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .director-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .director-visual {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .director-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .director-card:hover .director-visual img {
+            transform: scale(1.05);
+        }
+
+        .director-visual.red { background: linear-gradient(135deg, var(--red), var(--orange)); }
+        .director-visual.blue { background: linear-gradient(135deg, var(--blue), #3dbdb5); }
+        .director-visual.yellow { background: linear-gradient(135deg, var(--yellow), #ffe047); }
+        .director-visual.green { background: linear-gradient(135deg, var(--green), #7dd3c0); }
+        .director-visual.purple { background: linear-gradient(135deg, var(--purple), #b8bfe8); }
+        .director-visual.pink { background: linear-gradient(135deg, var(--pink), #ffc1d0); }
+
+        .director-info {
+            padding: 20px;
+        }
+
+        .director-info h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .director-info .title {
+            font-size: 0.9rem;
+            color: var(--blue);
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .director-info p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .manager-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .manager-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .manager-visual {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .manager-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s;
+        }
+
+        .manager-card:hover .manager-visual img {
+            transform: scale(1.03);
+        }
+
+        .manager-visual.red { background: linear-gradient(135deg, var(--red), var(--orange)); }
+        .manager-visual.blue { background: linear-gradient(135deg, var(--blue), #3dbdb5); }
+        .manager-visual.yellow { background: linear-gradient(135deg, var(--yellow), #ffe047); }
+        .manager-visual.green { background: linear-gradient(135deg, var(--green), #7dd3c0); }
+        .manager-visual.purple { background: linear-gradient(135deg, var(--purple), #b8bfe8); }
+        .manager-visual.pink { background: linear-gradient(135deg, var(--pink), #ffc1d0); }
+
+        .manager-info {
+            padding: 15px;
+        }
+
+        .manager-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .manager-info .title {
+            font-size: 0.8rem;
+            color: var(--blue);
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .manager-info p {
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #666;
+        }
+
+        .extended-header {
+            text-align: center;
+            margin: 40px 0 20px;
+            padding: 0 20px;
+        }
+
+        .extended-header h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .extended-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .extended-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .director-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .manager-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
         .footer {
             background: var(--dark);
             color: white;
@@ -273,6 +446,15 @@
             .leadership-grid {
                 grid-template-columns: 1fr;
             }
+            .director-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+            }
+            .manager-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+            }
+            .extended-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+            }
             
             .header h1 {
                 font-size: 2rem;
@@ -280,6 +462,10 @@
             
             .leadership-header h1 {
                 font-size: 2rem;
+            }
+            
+            .extended-header h2 {
+                font-size: 1.5rem;
             }
         }
 
@@ -483,279 +669,4 @@
                             <span>🏭 12 global offices</span>
                             <span>👥 8,500 employees</span>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual blue">
-                    <img src="https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif" alt="CHRO">
-                </div>
-                <div class="exec-info">
-                    <h3>Serenity Dawn Moon</h3>
-                    <p class="title">Chief Human Resources Officer</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>Built Netflix's legendary culture manifesto. 98% employee satisfaction. Mental health advocate with 3x coverage. Created "unlimited vacation" model now standard at 200+ companies.</p>
-                        <div class="stats-row">
-                            <span>❤️ 98% retention</span>
-                            <span>🎓 40 hours training/year</span>
-                            <span>🏆 Glassdoor #1 CEO</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual yellow">
-                    <img src="https://media.giphy.com/media/l0HlR3kHtkgFbYfgQ/giphy.gif" alt="GC">
-                </div>
-                <div class="exec-info">
-                    <h3>Justice Stone Archer</h3>
-                    <p class="title">General Counsel</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>Supreme Court clerk turned tech lawyer. Handled 200+ M&A deals. GDPR ninja and privacy pioneer. Licensed to practice in 15 jurisdictions worldwide.</p>
-                        <div class="stats-row">
-                            <span>📜 0 lawsuits lost</span>
-                            <span>🔒 100% compliant</span>
-                            <span>🏛️ 15 jurisdictions</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual green">
-                    <img src="https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif" alt="CSO">
-                </div>
-                <div class="exec-info">
-                    <h3>Raven Cipher Shadow</h3>
-                    <p class="title">Chief Security Officer</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>NSA cybersecurity specialist. Stopped 10,000+ attacks. Zero breaches in 5 years at PlayData. Built security framework adopted as industry standard by 300+ companies.</p>
-                        <div class="stats-row">
-                            <span>🔐 0 breaches</span>
-                            <span>⚡ 24/7 SOC</span>
-                            <span>🛡️ 99.999% secure</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual purple">
-                    <img src="https://media.giphy.com/media/l0HlNQ03J5JxX6lva/giphy.gif" alt="CDO">
-                </div>
-                <div class="exec-info">
-                    <h3>Nebula Quantum Flux</h3>
-                    <p class="title">Chief Data Officer</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>MIT data science prodigy. Built models analyzing 50B+ transactions. 99% prediction accuracy. World's youngest recipient of Data Science Lifetime Achievement Award.</p>
-                        <div class="stats-row">
-                            <span>📊 50B+ data points</span>
-                            <span>🎯 99% accuracy</span>
-                            <span>🤖 12 AI models</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual pink">
-                    <img src="https://media.giphy.com/media/IPjeiVyM/giphy.gif" alt="CCO">
-                </div>
-                <div class="exec-info">
-                    <h3>Atlas Iron Mountain</h3>
-                    <p class="title">Chief Compliance Officer</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>Former SEC regulator. Built compliance for 200+ banks. Zero violations in career spanning 20 years. Authored compliance textbook used in 100+ universities.</p>
-                        <div class="stats-row">
-                            <span>✅ 0 violations</span>
-                            <span>📋 12 certifications</span>
-                            <span>🌎 50+ countries</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual red">
-                    <img src="https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif" alt="CCO">
-                </div>
-                <div class="exec-info">
-                    <h3>Phoenix Wildfire Rose</h3>
-                    <p class="title">Chief Communications Officer</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>Former White House press corps. 50M+ social following. Crisis comms wizard turned brand storyteller. Pulitzer Prize nomination for tech journalism.</p>
-                        <div class="stats-row">
-                            <span>📰 50M+ reach</span>
-                            <span>🎙️ 100+ keynotes</span>
-                            <span>💬 98% positive sentiment</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual blue">
-                    <img src="https://media.giphy.com/media/l0HlR3kHtkgFbYfgQ/giphy.gif" alt="CIO">
-                </div>
-                <div class="exec-info">
-                    <h3>Cosmic Matrix Byte</h3>
-                    <p class="title">Chief Innovation Officer</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>Apple Watch co-inventor. 40+ patents. Built first AI chip for consumer devices. Member of National Inventors Hall of Fame. 5 breakthrough products launched.</p>
-                        <div class="stats-row">
-                            <span>💡 40+ patents</span>
-                            <span>🚀 3 breakthrough products</span>
-                            <span>🏆 Hall of Fame</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual yellow">
-                    <img src="https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif" alt="CSO">
-                </div>
-                <div class="exec-info">
-                    <h3>Stratus Vision Sky</h3>
-                    <p class="title">Chief Strategy Officer</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>McKinsey partner 15 years. Advised Fortune 50 on 100+ transformations. Built 10-year roadmap for PlayData's global dominance. Entry into 20 markets completed.</p>
-                        <div class="stats-row">
-                            <span>🎯 20 markets entered</span>
-                            <span>📈 $45B TAM identified</span>
-                            <span>🏆 100% success rate</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual green">
-                    <img src="https://media.giphy.com/media/l0HlNQ03J5JxX6lva/giphy.gif" alt="CDO">
-                </div>
-                <div class="exec-info">
-                    <h3>Pixel Rainbow Spectrum</h3>
-                    <p class="title">Chief Digital Officer</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>Transformed 3 Fortune 100 companies into digital natives. Built PlayData's mobile-first platform with 99% engagement. Webby Award winner for digital innovation.</p>
-                        <div class="stats-row">
-                            <span>📱 99% engagement</span>
-                            <span>🌐 10x digital revenue</span>
-                            <span>🏆 Webby Award winner</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual purple">
-                    <img src="https://media.giphy.com/media/IPjeiVyM/giphy.gif" alt="Pres Sales">
-                </div>
-                <div class="exec-info">
-                    <h3>Zenith Peak Everest</h3>
-                    <p class="title">President, Global Sales</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>Scaled Oracle's sales from $200M to $5B. Built 2,000-person salesforce. Closed largest SaaS deal in history ($450M ACV). Sales methodology adopted by Fortune 100.</p>
-                        <div class="stats-row">
-                            <span>💎 $450M largest deal</span>
-                            <span>🎯 200% quota attainment</span>
-                            <span>👥 2,000 sales team</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual pink">
-                    <img src="https://media.giphy.com/media/IPjeiVyM/giphy.gif" alt="Chairman">
-                </div>
-                <div class="exec-info">
-                    <h3>Legacy Stone Mountain</h3>
-                    <p class="title">Chairman of the Board</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>Former Microsoft CEO. Built 3 $100B+ companies. Seer of tech trends, mentor to unicorn founders. Presidential Medal of Freedom recipient. Board member at 30+ startups.</p>
-                        <div class="stats-row">
-                            <span>👑 3 $100B+ companies</span>
-                            <span>🎓 40 years experience</span>
-                            <span>🏆 Presidential Medal</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="exec-card" onclick="toggleExec(this)">
-                <div class="exec-visual red">
-                    <img src="https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif" alt="CIO">
-                </div>
-                <div class="exec-info">
-                    <h3>Cosmic Matrix Byte</h3>
-                    <p class="title">Chief Innovation Officer</p>
-                    <div class="expand-btn">▼</div>
-                </div>
-                <div class="exec-details">
-                    <div class="exec-content">
-                        <p>Apple Watch co-inventor. 40+ patents. Built first AI chip for consumer devices. Member of National Inventors Hall of Fame. 5 breakthrough products launched.</p>
-                        <div class="stats-row">
-                            <span>💡 40+ patents</span>
-                            <span>🚀 3 breakthrough products</span>
-                            <span>🏆 Hall of Fame</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <h3>🚀 Building the Future Together</h3>
-        <p>Our leadership team is pioneering the next generation of data analytics innovation</p>
-    </div>
-
-    <script>
-        function toggleExec(element) {
-            element.classList.toggle('expanded');
-        }
-
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 500);
-        });
-    </script>
-</body>
-</html>
+                    </div
